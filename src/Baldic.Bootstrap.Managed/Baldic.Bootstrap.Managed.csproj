@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.Bootstrap.Managed</AssemblyName>
+    <RootNamespace>Baldic.Bootstrap.Managed</RootNamespace>
+    <Description>Baldic managed bootstrap entrypoint — loaded by Unity Doorstop before game assemblies.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Baldic.Loader.Abstractions\Baldic.Loader.Abstractions.csproj" />
+    <ProjectReference Include="..\Baldic.Loader\Baldic.Loader.csproj" />
+    <ProjectReference Include="..\Baldic.Patching\Baldic.Patching.csproj" />
+    <ProjectReference Include="..\Baldic.API.UI\Baldic.API.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\Dependencies\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\Dependencies\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

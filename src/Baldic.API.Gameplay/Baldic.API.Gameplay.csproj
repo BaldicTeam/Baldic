@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.API.Gameplay</AssemblyName>
+    <RootNamespace>Baldic.API.Gameplay</RootNamespace>
+    <Description>Baldic gameplay API: dynamic IDs, registries, metadata, object builders. Requires Unity at runtime.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Baldic.Loader.Abstractions\Baldic.Loader.Abstractions.csproj" />
+    <ProjectReference Include="..\Baldic.API.Core\Baldic.API.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

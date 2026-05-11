@@ -1,0 +1,17 @@
+bin/
+obj/
+*.user
+.vs/
+.idea/
+*.DotSettings.user
+nupkg/
+artifacts/
+# Local game reference props (never commit game paths)
+*.GameReferences.props
+Baldic.GameReferences.props
+# Baldic dev links
+*.baldicdev
+# Logs generated during testing
+tests/**/*.log
+samples/
+tests/

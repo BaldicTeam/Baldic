@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.API.SaveSystem</AssemblyName>
+    <RootNamespace>Baldic.API.SaveSystem</RootNamespace>
+    <Description>Baldic modded save system: namespaced chunks, schema migration, highscore separation. Does not touch vanilla save files.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Baldic.Loader.Abstractions\Baldic.Loader.Abstractions.csproj" />
+    <ProjectReference Include="..\Baldic.API.Core\Baldic.API.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

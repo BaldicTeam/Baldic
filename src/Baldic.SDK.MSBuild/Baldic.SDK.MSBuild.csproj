@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.SDK.MSBuild</AssemblyName>
+    <RootNamespace>Baldic.SDK.MSBuild</RootNamespace>
+    <Description>Baldic MSBuild SDK: pack .baldicmod, validate manifest, generate game reference props.</Description>
+    <!--
+      This project produces a NuGet package that mods reference as PrivateAssets="all".
+      The .targets file is automatically imported by the SDK and provides
+      the BaldicPack and BaldicValidate build targets.
+    -->
+    <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
+    <NoBuild>false</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="build\Baldic.SDK.MSBuild.targets" Pack="true" PackagePath="build\" />
+    <None Include="build\Baldic.SDK.MSBuild.props"   Pack="true" PackagePath="build\" />
+  </ItemGroup>
+</Project>

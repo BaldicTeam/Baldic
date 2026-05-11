@@ -1,0 +1,27 @@
+<!--
+  Baldic SDK — auto-imported .props file.
+  Sets up default Baldic mod project properties.
+  Imported before the project file.
+-->
+<Project>
+  <PropertyGroup>
+    <!--
+      Path to the local Baldi's Basics Plus installation.
+      Set via environment variable or .user props file (never committed).
+    -->
+    <BaldicGamePath Condition="'$(BaldicGamePath)' == ''">$(BALDIC_GAME_PATH)</BaldicGamePath>
+
+    <!-- Output directory for the packed .baldicmod archive. -->
+    <BaldicPackOutputDir Condition="'$(BaldicPackOutputDir)' == ''">$(OutputPath)</BaldicPackOutputDir>
+
+    <!-- Mod id must match baldic.mod.json → id field. -->
+    <BaldicModId Condition="'$(BaldicModId)' == ''">$(AssemblyName.ToLower())</BaldicModId>
+
+    <!-- Skip pack on clean builds if not explicitly requested. -->
+    <BaldicAutoPackOnBuild Condition="'$(BaldicAutoPackOnBuild)' == ''">false</BaldicAutoPackOnBuild>
+  </PropertyGroup>
+
+  <!-- Auto-import local game references if the helper props file exists. -->
+  <Import Project="$(MSBuildProjectDirectory)\Baldic.GameReferences.props"
+          Condition="Exists('$(MSBuildProjectDirectory)\Baldic.GameReferences.props')" />
+</Project>

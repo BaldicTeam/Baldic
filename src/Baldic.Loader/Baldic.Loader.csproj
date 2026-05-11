@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.Loader</AssemblyName>
+    <RootNamespace>Baldic.Loader</RootNamespace>
+    <Description>Baldic mod loader core: manifest parsing, dependency resolution, mod scanning and entrypoint management.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Baldic.Loader.Abstractions\Baldic.Loader.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

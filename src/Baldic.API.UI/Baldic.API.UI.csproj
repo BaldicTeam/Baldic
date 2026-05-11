@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.API.UI</AssemblyName>
+    <RootNamespace>Baldic.API.UI</RootNamespace>
+    <Description>Baldic UI API: loading screen progress, options menu categories, mod list. Requires Unity at runtime.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Baldic.Loader.Abstractions\Baldic.Loader.Abstractions.csproj" />
+    <ProjectReference Include="..\Baldic.API.Core\Baldic.API.Core.csproj" />
+  </ItemGroup>
+</Project>

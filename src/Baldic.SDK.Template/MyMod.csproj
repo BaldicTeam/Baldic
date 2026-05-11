@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <BaldicModId>my_mod</BaldicModId>
+    <BaldicGamePath>$(BALDIC_GAME_PATH)</BaldicGamePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Baldic.API.Core"       Version="0.1.0" />
+    <PackageReference Include="Baldic.SDK.MSBuild"    Version="0.1.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BaldicModManifest Include="baldic.mod.json" />
+    <BaldicModAsset    Include="assets\**\*" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.Loader.Abstractions</AssemblyName>
+    <RootNamespace>Baldic.Loader.Abstractions</RootNamespace>
+    <Description>Public contracts and manifest model for the Baldic mod loader.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

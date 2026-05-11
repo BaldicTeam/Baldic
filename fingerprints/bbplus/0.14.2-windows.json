@@ -1,0 +1,9 @@
+{
+  "game": "baldis-basics-plus",
+  "version": "0.14.2",
+  "platform": "windows-x64",
+  "assemblyCSharpSha256": "96ecd01815714f5a841d4af4e5b80e0981d5b9cab5c43483881cc7d33d12aee5",
+  "mvid": "7e609cc0-84d9-4a67-b6d0-6a29953f1443",
+  "unityVersion": "2020.3.49f1",
+  "symbols": null
+}

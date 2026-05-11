@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baldic.mod/schemas/baldic.mod.v1.json",
+  "title": "baldic.mod.json",
+  "description": "Baldic mod manifest schema v1",
+  "type": "object",
+  "required": ["schemaVersion", "id", "version"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [1],
+      "description": "Must be 1 for this schema version."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{1,63}$",
+      "description": "Stable lowercase mod identifier. Example: my_cool_mod"
+    },
+    "version": {
+      "type": "string",
+      "description": "SemVer 2.0 version string. Example: 1.0.0"
+    },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "contact": { "type": "string" }
+        }
+      }
+    },
+    "contributors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "contact": { "type": "string" }
+        }
+      }
+    },
+    "license": { "type": "string" },
+    "icon": { "type": "string" },
+    "environment": {
+      "type": "string",
+      "enum": ["client", "*"],
+      "default": "client"
+    },
+    "game": {
+      "type": "object",
+      "required": ["id", "versions"],
+      "properties": {
+        "id": { "type": "string", "enum": ["baldis-basics-plus"] },
+        "versions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "loader": {
+      "type": "object",
+      "properties": {
+        "versions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "depends":     { "$ref": "#/definitions/dependencyMap" },
+    "recommends":  { "$ref": "#/definitions/dependencyMap" },
+    "suggests":    { "$ref": "#/definitions/dependencyMap" },
+    "conflicts":   { "$ref": "#/definitions/dependencyMap" },
+    "breaks":      { "$ref": "#/definitions/dependencyMap" },
+    "provides": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "assemblies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relative paths to managed DLLs inside the package."
+    },
+    "entrypoints": {
+      "type": "object",
+      "properties": {
+        "main":         { "$ref": "#/definitions/entrypointList" },
+        "assetsLoaded": { "$ref": "#/definitions/entrypointList" },
+        "generator":    { "$ref": "#/definitions/entrypointList" },
+        "options":      { "$ref": "#/definitions/entrypointList" },
+        "preLaunch":    { "$ref": "#/definitions/entrypointList" }
+      },
+      "additionalProperties": { "$ref": "#/definitions/entrypointList" }
+    },
+    "patches": {
+      "type": "object",
+      "properties": {
+        "harmony": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "cecil": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["assembly"],
+            "properties": {
+              "assembly": { "type": "string" },
+              "targets": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "root":         { "type": "string" },
+        "localization": { "type": "string" },
+        "assetBundles": { "type": "string" }
+      }
+    },
+    "custom": {
+      "type": "object",
+      "description": "Namespaced custom metadata. Loader ignores unknown keys.",
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "dependencyMap": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "entrypointList": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "my_mod",
+  "version": "1.0.0",
+  "name": "My Mod",
+  "description": "A Baldic mod for Baldi's Basics Plus.",
+  "authors": [
+    { "name": "Author" }
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "game": {
+    "id": "baldis-basics-plus",
+    "versions": [">=0.14.0 <0.15.0"]
+  },
+  "loader": {
+    "versions": [">=0.1.0"]
+  },
+  "depends": {
+    "baldic": ">=0.1.0",
+    "baldic-api": ">=0.1.0"
+  },
+  "assemblies": ["lib/MyMod.dll"],
+  "entrypoints": {
+    "main": ["MyMod.MyModInitializer"]
+  }
+}

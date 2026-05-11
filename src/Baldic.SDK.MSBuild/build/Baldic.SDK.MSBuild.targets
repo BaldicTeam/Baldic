@@ -1,0 +1,120 @@
+<!--
+  Baldic SDK — auto-imported .targets file.
+  Provides:
+    BaldicValidate  — validates baldic.mod.json before pack
+    BaldicPack      — packs the mod into a .baldicmod archive
+  Both targets run after Build by default when BaldicAutoPackOnBuild=true.
+-->
+<Project>
+
+  <!-- ── Item groups ──────────────────────────────────────────────── -->
+
+  <!--
+    Declare BaldicModManifest item.
+    Default: baldic.mod.json in the project directory.
+  -->
+  <ItemGroup Condition="'@(BaldicModManifest)' == ''">
+    <BaldicModManifest Include="$(MSBuildProjectDirectory)\baldic.mod.json"
+                       Condition="Exists('$(MSBuildProjectDirectory)\baldic.mod.json')" />
+  </ItemGroup>
+
+  <!--
+    Declare BaldicModAsset items.
+    Default: everything under the assets/ directory.
+  -->
+  <ItemGroup Condition="'@(BaldicModAsset)' == ''">
+    <BaldicModAsset Include="$(MSBuildProjectDirectory)\assets\**\*"
+                    Condition="Exists('$(MSBuildProjectDirectory)\assets\')" />
+  </ItemGroup>
+
+  <!-- ── BaldicValidate ────────────────────────────────────────────── -->
+
+  <Target Name="BaldicValidate" BeforeTargets="BaldicPack">
+    <Error Text="[Baldic] baldic.mod.json not found at '$(MSBuildProjectDirectory)\baldic.mod.json'. Add one or set BaldicModManifest."
+           Condition="'@(BaldicModManifest)' == ''" />
+    <Message Text="[Baldic] Manifest validated: %(BaldicModManifest.Identity)" Importance="high" />
+  </Target>
+
+  <!-- ── BaldicPack ────────────────────────────────────────────────── -->
+
+  <!--
+    Creates <ModId>-<Version>.baldicmod (a zip archive) from:
+      - baldic.mod.json  (manifest)
+      - lib/<AssemblyName>.dll  (compiled mod assembly)
+      - All BaldicModAsset items (assets, bundles, etc.)
+  -->
+  <Target Name="BaldicPack"
+          AfterTargets="$(BaldicAutoPackOnBuild == 'true' ? 'Build' : '_BaldicNoop')"
+          DependsOnTargets="BaldicValidate;Build">
+
+    <PropertyGroup>
+      <_BaldicPackVersion>$([System.IO.File]::ReadAllText('%(BaldicModManifest.Identity)')
+            .Split('"version"')[1]
+            .Split(':')[1]
+            .Split('"')[1])</_BaldicPackVersion>
+      <_BaldicPackVersion Condition="'$(_BaldicPackVersion)' == ''">0.0.0</_BaldicPackVersion>
+      <_BaldicArchiveName>$(BaldicModId)-$(_BaldicPackVersion).baldicmod</_BaldicArchiveName>
+      <_BaldicArchivePath>$(BaldicPackOutputDir)$(_BaldicArchiveName)</_BaldicArchivePath>
+    </PropertyGroup>
+
+    <!-- Collect files to include in the archive. -->
+    <ItemGroup>
+      <_BaldicPackFiles Include="%(BaldicModManifest.Identity)">
+        <ArchivePath>baldic.mod.json</ArchivePath>
+      </_BaldicPackFiles>
+      <_BaldicPackFiles Include="$(OutputPath)$(AssemblyName).dll"
+                         Condition="Exists('$(OutputPath)$(AssemblyName).dll')">
+        <ArchivePath>lib\$(AssemblyName).dll</ArchivePath>
+      </_BaldicPackFiles>
+      <_BaldicPackFiles Include="@(BaldicModAsset)">
+        <ArchivePath>%(RecursiveDir)%(Filename)%(Extension)</ArchivePath>
+      </_BaldicPackFiles>
+    </ItemGroup>
+
+    <!-- Use MSBuild ZipDirectory or inline task. -->
+    <MakeDir Directories="$(BaldicPackOutputDir)" />
+
+    <!--
+      CreateZip inline task using System.IO.Compression.
+      Runs in the MSBuild process which already has .NET available.
+    -->
+    <CreateBaldicArchive
+        ArchivePath="$(_BaldicArchivePath)"
+        Files="@(_BaldicPackFiles)"
+        Condition="'@(_BaldicPackFiles)' != ''" />
+
+    <Message Text="[Baldic] Packed → $(_BaldicArchivePath)" Importance="high" />
+  </Target>
+
+  <!-- Inline task: creates a zip archive from item list with ArchivePath metadata. -->
+  <UsingTask TaskName="CreateBaldicArchive"
+             TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <ArchivePath ParameterType="System.String" Required="true" />
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.IO.Compression" />
+      <Code Type="Fragment" Language="cs">
+<![CDATA[
+        if (File.Exists(ArchivePath)) File.Delete(ArchivePath);
+        using var zip = ZipFile.Open(ArchivePath, ZipArchiveMode.Create);
+        foreach (var item in Files)
+        {
+            string src = item.ItemSpec;
+            string dst = item.GetMetadata("ArchivePath").Replace('\\', '/');
+            if (!File.Exists(src)) continue;
+            zip.CreateEntryFromFile(src, dst, CompressionLevel.Optimal);
+        }
+        return true;
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <!-- No-op target used when BaldicAutoPackOnBuild=false. -->
+  <Target Name="_BaldicNoop" />
+
+</Project>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Baldic.Patching</AssemblyName>
+    <RootNamespace>Baldic.Patching</RootNamespace>
+    <Description>Baldic patching layer: Harmony integration, conditional patches, patch registry, Cecil preloader pipeline.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Baldic.Loader.Abstractions\Baldic.Loader.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Lib.Harmony ships HarmonyX, compatible with Unity Mono / netstandard2.0.
+      At runtime, the game environment must also have 0Harmony.dll accessible
+      via AssemblyResolve (placed in Baldic/core/).
+    -->
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+    <!--
+      Mono.Cecil is used for the optional pre-load IL patching pipeline.
+    -->
+    <PackageReference Include="Mono.Cecil" Version="0.11.5" />
+  </ItemGroup>
+</Project>

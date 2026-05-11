@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Baldic Contributors",
+  "classifications": ["Baldic", "Mod", "Game"],
+  "identity": "Baldic.Mod.Template",
+  "name": "Baldic Mod",
+  "shortName": "baldicmod",
+  "description": "A Baldic mod project for Baldi's Basics Plus.",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "ModId": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "my_mod",
+      "description": "Stable mod id (lowercase, underscores only).",
+      "replaces": "my_mod"
+    },
+    "ModName": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "My Mod",
+      "description": "Human-readable mod name.",
+      "replaces": "My Mod"
+    },
+    "AuthorName": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "Author",
+      "description": "Author display name.",
+      "replaces": "Author"
+    },
+    "SafeModId": {
+      "type": "derived",
+      "valueSource": "ModId",
+      "valueTransform": "PascalCase",
+      "replaces": "MyMod"
+    }
+  },
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": ["template.json", ".template.config/**"]
+    }
+  ]
+}
